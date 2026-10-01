@@ -1,8 +1,10 @@
 import io
 import json
 import re
+import time
 from contextlib import redirect_stdout, redirect_stderr
 
+import openai
 from autogen import ConversableAgent, UserProxyAgent
 
 from utils.search import search
@@ -45,8 +47,16 @@ def _call_agent(name: str, system_message: str, task: str) -> str:
     )
 
     buf = io.StringIO()
-    with redirect_stdout(buf), redirect_stderr(buf):
-        result = proxy.initiate_chat(agent, message=task, max_turns=1)
+    # Every free model can be rate-limited at once; back off and retry.
+    for attempt in range(3):
+        try:
+            with redirect_stdout(buf), redirect_stderr(buf):
+                result = proxy.initiate_chat(agent, message=task, max_turns=1)
+            break
+        except openai.RateLimitError:
+            if attempt == 2:
+                raise
+            time.sleep(10 * (attempt + 1))
 
     # ChatResult.chat_history — last entry is the agent reply
     if result and hasattr(result, "chat_history") and result.chat_history:
