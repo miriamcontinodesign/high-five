@@ -1,4 +1,4 @@
-ag2[openai]
+ag2[openai]>=0.13,<1.0
 streamlit
 tavily-python
 python-dotenv
