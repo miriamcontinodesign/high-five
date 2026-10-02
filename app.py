@@ -89,8 +89,9 @@ header[data-testid="stHeader"] { background: transparent; }
 }
 
 /* Primary button */
-.stButton > button[kind="primary"] {
-    background: linear-gradient(135deg, #7c3aed, #db2777);
+.stButton > button[kind="primary"],
+.stFormSubmitButton > button[kind="primaryFormSubmit"] {
+    background: linear-gradient(135deg, #a855f7, #ec4899);
     border: none;
     border-radius: 12px;
     font-weight: 600;
@@ -98,8 +99,10 @@ header[data-testid="stHeader"] { background: transparent; }
     padding: 12px;
     color: white;
 }
-.stButton > button[kind="primary"]:hover {
-    background: linear-gradient(135deg, #6d28d9, #be185d);
+.stButton > button[kind="primary"]:hover,
+.stFormSubmitButton > button[kind="primaryFormSubmit"]:hover {
+    background: linear-gradient(135deg, #9333ea, #db2777);
+    color: white;
     transform: translateY(-1px);
 }
 
